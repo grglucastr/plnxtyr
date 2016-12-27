@@ -21,6 +21,7 @@
     "gulp-inject": "^4.2.0",
     "gulp-nodemon": "^2.2.1",
     "mocha": "^3.2.0",
+    "should": "^11.1.2",
     "wiredep": "^4.0.0"
   }
 }
