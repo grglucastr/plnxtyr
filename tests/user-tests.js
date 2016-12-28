@@ -1,7 +1,5 @@
 var should = require('should');
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/plnxtyr');
+var db = require('../util/database');
 var userService = require('../services/user-service')(db);
 var userController = require('../controllers/user-controller');
 
