@@ -11,9 +11,8 @@ var userController = function(){
             if(err){
                 return res.status(500).json(err);
             }
-
             return res.status(200).json(user);
-        })
+        });
     };
 
     var postNewUser = function(req, res){
@@ -22,23 +21,41 @@ var userController = function(){
             req.body.password = handlePasswordEncryption(req.body.password);
         }
 
-        userService.saveNewUser(req.body, function(err, user){
-            if(err){
-                return res.status(500).json(err);
+        validateEmail(req.body, function(errValidate, emailExists){
+            if(errValidate){
+                return res.status(500).json(errValidate);
             }
-            return res.status(201).json(user);
+
+            if(emailExists){
+                return res.status(200).json('E-mail already in use! User account was not created.');
+            }
+
+            userService.saveNewUser(req.body, function(err, user){
+                if(err){
+                    return res.status(500).json(err);
+                }
+                return res.status(201).json(user);
+            });
         });
     };
 
-    return{
-        getUser: getUser,
-        postNewUser: postNewUser
+    var validateEmail = function(data, callback){
+        if(!data.email){
+            return callback(Error(`The key 'email' was not found in your json document file.`), null);
+        }
+
+        userService.getUserByParam(data.email, function(err, user){
+            if(err){
+                return callback(err, null);
+            }
+            var userExists = false;
+            if(user){
+                userExists = true;
+            }
+            return callback(null, userExists);
+        });
     };
 
-    /**
-    * Here below are the methods are used only in this controller.
-    * There are not exported. There are not used outside this controller.
-    **/
     function handlePasswordEncryption(password){
         const crypto = require('crypto');
         const secretkey = "Twilight 0f The Thunder G()d!";
@@ -53,6 +70,12 @@ var userController = function(){
         const decipher = crypto.createDecipher('aes192', secretkey);
         var decrypted = decipher.update(password, 'hex', 'utf8');
         return decrypted += decipher.final('utf8');
+    };
+
+    return{
+        getUser: getUser,
+        postNewUser: postNewUser,
+        validateEmail: validateEmail
     };
 };
 
