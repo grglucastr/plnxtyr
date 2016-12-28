@@ -18,7 +18,7 @@ var userController = function(){
     var postNewUser = function(req, res){
         // Password encryption
         if(req.body.password){
-            req.body.password = handlePasswordEncryption(req.body.password);
+            req.body.password = handleStringEncryption(req.body.password);
         }
 
         validateEmail(req.body, function(errValidate, emailExists){
@@ -56,19 +56,19 @@ var userController = function(){
         });
     };
 
-    function handlePasswordEncryption(password){
+    function handleStringEncryption(str){
         const crypto = require('crypto');
         const secretkey = "Twilight 0f The Thunder G()d!";
         const cipher = crypto.createCipher('aes192', secretkey);
-        var encrypted =  cipher.update(password, 'utf8', 'hex');
+        var encrypted =  cipher.update(str, 'utf8', 'hex');
         return encrypted += cipher.final('hex');
     };
 
-    function handlePasswordDecryption(password){
+    function handleStringDecryption(str){
         const crypto = require('crypto');
         const secretkey = "Twilight 0f The Thunder G()d!";
         const decipher = crypto.createDecipher('aes192', secretkey);
-        var decrypted = decipher.update(password, 'hex', 'utf8');
+        var decrypted = decipher.update(str, 'hex', 'utf8');
         return decrypted += decipher.final('utf8');
     };
 
