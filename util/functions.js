@@ -24,7 +24,7 @@ var functions = function(){
     };
 
     return{
-        printResponse: printResponse,
+        sendResponse: sendResponse,
         handleStringEncryption: handleStringEncryption,
         handleStringDecryption: handleStringDecryption
     }
