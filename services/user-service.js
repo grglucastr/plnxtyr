@@ -10,7 +10,7 @@ var userService = function(db){
         });
     };
 
-    var getUserById = function(id, callback){
+    var getUserByParam = function(id, callback){
         var userCollection =  db.get('users');
         userCollection.findOne({_id:id}, function(err, user){
             if(err){
@@ -22,7 +22,7 @@ var userService = function(db){
 
     return{
         saveNewUser: saveNewUser,
-        getUserById: getUserById
+        getUserByParam: getUserByParam
     }
 };
 
