@@ -7,7 +7,7 @@ var userService = require('../services/user-service')(db);
 var userController = function(){
 
     var getUser = function(req, res){
-        userService.getUserById(req.params.id, function(err, user){
+        userService.getUserByParam(req.params.id, function(err, user){
             if(err){
                 return res.status(500).json(err);
             }
