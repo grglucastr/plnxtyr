@@ -10,9 +10,17 @@ var userService = function(db){
         });
     };
 
-    var getUserByParam = function(id, callback){
+    var getUserByParam = function(paramValue, callback){
+        var criteria = {};
+
+        if(paramValue.indexOf('@') > 0){
+            criteria.email = paramValue;
+        }else{
+            criteria._id = paramValue;
+        }
+
         var userCollection =  db.get('users');
-        userCollection.findOne({_id:id}, function(err, user){
+        userCollection.findOne(criteria, function(err, user){
             if(err){
                 return callback(err, null);
             }
