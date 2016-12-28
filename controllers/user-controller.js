@@ -6,7 +6,7 @@ var userController = function(){
 
     var getUser = function(req, res){
         userService.getUserByParam(req.params.id, function(err, user){
-            return functions.printResponse(res, user, 200, err);
+            return functions.sendResponse(res, user, 200, err);
         });
     };
 
@@ -26,7 +26,7 @@ var userController = function(){
             }
 
             userService.saveNewUser(req.body, function(err, user){
-                return functions.printResponse(res, user, 201, err);
+                return functions.sendResponse(res, user, 201, err);
             });
         });
     };

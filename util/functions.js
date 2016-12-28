@@ -1,6 +1,6 @@
 var functions = function(){
 
-    var printResponse = function(response, data, statusGood, error){
+    var sendResponse = function(response, data, statusGood, error){
         if(error){
             return response.status(500).json(error);
         }
