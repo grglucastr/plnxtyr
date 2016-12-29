@@ -1,9 +1,29 @@
-var should = require('should');
+var testsLib = require('../util/tests-lib');
 var db = require('../util/database');
 var userService = require('../services/user-service')(db);
 var userController = require('../controllers/user-controller');
 
 describe('User test controller', function(){
+
+    it('Should insert an user', function(done){
+        var user = {
+            name:'George Bentes',
+            email:'george.bentes@gmail.com',
+            password:'bugabugabugaae'
+        };
+
+        testsLib.request(testsLib.app)
+                .post('/api/users/')
+                .send(user)
+                .expect(201)
+                .end(function(err, user){
+                    if(err){
+                        return done(err);
+                    }
+                    done();
+                });
+    });
+
     it('Should be ok. Email exists!', function(done){
         var obj = {};
         obj.email = 'george.bentes@gmail.com';

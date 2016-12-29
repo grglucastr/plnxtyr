@@ -4,8 +4,8 @@ var plansController = require('../controllers/plan-controller');
 
 var plans = function(){
 
-    router.route('/api/users/:id/plans/')
-          .get();
+    router.route('/api/users/:userID/plans/')
+          .get(plansController.getAllPlans);
 
     return router;
 }

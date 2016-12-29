@@ -1,6 +1,6 @@
 var userService = function(db){
 
-    var saveNewUser = function(data, callback){
+    var saveUser = function(data, callback){
         var userCollection = db.get('users');
         userCollection.insert(data, function(err, user){
             if(err){
@@ -28,10 +28,21 @@ var userService = function(db){
         });
     };
 
+    var updateUser = function(data, callback){
+        var usersCollection = db.get('users');
+        usersCollection.update({_id:data.id}, data, function(err, user){
+            if(err){
+                return callback(err);
+            }
+            return callback(null, user);
+        });
+    };
+
     return{
-        saveNewUser: saveNewUser,
-        getUserByParam: getUserByParam
-    }
+        saveUser: saveUser,
+        getUserByParam: getUserByParam,
+        updateUser: updateUser
+    };
 };
 
 module.exports = userService;

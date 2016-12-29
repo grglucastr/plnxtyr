@@ -4,7 +4,9 @@ var functions = require('../util/functions');
 
 var planController = function(){
     var getAllPlans = function(req, res){
-        return functions.sendResponse(res, null, 200, null);
+        plansService.listAllPlansByUser(req.params.userID, function(err, plans){
+            return functions.sendResponse(res, plans, 200, err);
+        });
     };
 
     return{

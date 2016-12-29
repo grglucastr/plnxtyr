@@ -5,7 +5,7 @@ var functions = require('../util/functions');
 var userController = function(){
 
     var getUser = function(req, res){
-        userService.getUserByParam(req.params.id, function(err, user){
+        userService.getUserByParam(req.params.userID, function(err, user){
             return functions.sendResponse(res, user, 200, err);
         });
     };
@@ -25,7 +25,10 @@ var userController = function(){
                 return res.status(200).json('E-mail already in use! User account was not created.');
             }
 
-            userService.saveNewUser(req.body, function(err, user){
+            // Starts with an enpty plans array
+            req.body.plans = [];
+
+            userService.saveUser(req.body, function(err, user){
                 return functions.sendResponse(res, user, 201, err);
             });
         });
@@ -33,7 +36,8 @@ var userController = function(){
 
     var validateEmail = function(data, callback){
         if(!data.email){
-            return callback(Error(`The key 'email' was not found in your json document file.`), null);
+            var error = new Error(`The key 'email' was not found in your json document file.`);
+            return callback(error, null);
         }
 
         userService.getUserByParam(data.email, function(err, user){

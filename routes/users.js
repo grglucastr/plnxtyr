@@ -6,7 +6,7 @@ var users = function(){
     router.route('/')
         .post(userController.postNewUser);
 
-    router.route('/:id')
+    router.route('/:userID')
         .get(userController.getUser);
 
     return router;
